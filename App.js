@@ -10,54 +10,55 @@ import React from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import HomeScreen from './screens/HomeScreen';
+import DetailsScreen from './screens/DetailsScreen';
 
-const HomeScreen = ({navigation}) => {
+const HomeStack = createStackNavigator();
+const DetailsStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const HomeStackScreen = ({navigation}) => {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to the Details Screen"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fonntWeight: 'bold',
+        },
+      }}>
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+    </HomeStack.Navigator>
   );
 };
 
-const DetailsScreen = ({navigation}) => {
+const DetailsStackScreen = ({navigation}) => {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to the Details Screen...again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button
-        title="Go to Home Screen"
-        onPress={() => navigation.navigate('Home')}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
+    <DetailsStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#009387',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fonntWeight: 'bold',
+        },
+      }}>
+      <DetailsStack.Screen name="Details" component={DetailsScreen} />
+    </DetailsStack.Navigator>
   );
 };
-
-const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#009387',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fonntWeight: 'bold',
-          },
-        }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeStackScreen} />
+        <Drawer.Screen name="Details" component={DetailsStackScreen} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
